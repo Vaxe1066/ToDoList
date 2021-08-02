@@ -35,6 +35,9 @@ const contentLoad = () => {
     const middleDiv = document.querySelector(".middle");
     middleDiv.setAttribute("style", "grid-column: 4/10");
 
+
+
+
 }
 
 export default contentLoad;

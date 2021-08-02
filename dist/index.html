@@ -28,10 +28,39 @@
 
 
         <div class="middle">
-          hello
+          <div class="table-top">
+            <h3>Home</h3>
+            <input class="add-task js-add-task" type="image">
+          </div>
+          <table class="tableMain">
+
+          </table>
         </div>
 
       </div>
+
+
+
+      <div class="my-form js-my-form">
+        <!-- Form content -->
+        <div class="form-content js-form-content">
+        <span class="close">&times;</span>
+        <form class="the-form js-the-form" onsubmit="return false;">
+            <label for="ltitle">Title</label><br>
+            <input type="text" class="title" name="ltitle" value=""><br><br>
+            <label for="lauthor">Details</label><br>
+            <input type="text" class="details" name="ldetails" value=""><br><br>
+            <label for="lpages">Due Date</label><br>
+            <input type="date" class="due-date js-due-date" name="lduedate" value=""><br><br>
+            <!--<select id="readstatus" name="readstatus">
+            <option class="1" value="Read">Read</option>
+            <option class="2" value="Not Read Yet">Not Read Yet</option>
+            </select><br><br>-->
+            <input class="submit-btn js-submit-btn" type="submit" value="Submit">
+        </form> 
+    </div>
+
+
     <div>
    <script src="bundle.js"></script>
   </body>

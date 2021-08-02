@@ -7,8 +7,7 @@ const removeContents = () => {
       myNode.removeChild(myNode.lastChild);
     }
 
-    const middleDiv = document.querySelector(".middle");
-    middleDiv.setAttribute("style", "grid-column: 2/10");
+    
    
 
 

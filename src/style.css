@@ -4,6 +4,7 @@ html, body{
     min-width: 100%;
     max-width: 100%;
     margin: 0 0 0 0;
+    overflow: hidden;
     
 
 }
@@ -107,8 +108,112 @@ a{
   .middle{
       grid-column:2/10;
       grid-row:2/10;
-      background-color:blue;
+      display: flex;
+      flex-direction: column;
+      padding-top:2%;
   }
+
+  .table-top{
+      display: flex;
+      flex-direction: row;
+      justify-content:space-between;
+      align-items: center;
+      padding-bottom: 15px;
+  }
+
+   /*table */
+   table {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    overflow: auto;
+    
+}
+
+table td, table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+table tr:nth-child(even){background-color: #f2f2f2;}
+
+table tr:hover {background-color: #ddd;}
+
+table td {
+    text-align: center;
+}
+
+table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: #04AA6D;
+    color: white;
+}
+
+tbody {
+    display: block;
+    height: 550px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    border-bottom: double;
+}
+thead, tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;/* even columns width , fix width of table too*/
+}
+thead {
+    width: calc( 100% - 1em )/* scrollbar is average 1em/16px width, remove it from thead width */
+}
+
+.radio-btn, .edit-btn, .delete-btn{
+    width: 25px;
+}
+/***** END TABLE ****/
+
+
+        /*Do the hidden form*/
+        .my-form {
+            display: none;
+            position: fixed; /* Stay in place */
+            z-index: 1;  /*Sit on top */ 
+            padding-top: 400px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+
+
+
+        .form-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+
+         /* The Close Button */
+        .close {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
 
 
 
