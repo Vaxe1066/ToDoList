@@ -20,7 +20,7 @@ let maxId=5;
 const submitEvent = (Obj, mountains, myForm) => {
     const submitBtn = document.querySelector(".js-submit-btn");
     submitBtn.addEventListener("click", ()=>{
-        let title = document.querySelector(".title").value;
+        let title = document.querySelector(".js-title-form").value;
         let details = document.querySelector(".details").value;
         let duedate = document.querySelector(".js-due-date").value;
         let item = new Obj(maxId+1, title, details, duedate);

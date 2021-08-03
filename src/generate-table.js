@@ -18,7 +18,7 @@ function generateTableHead(table, data) {
         let row = table.insertRow();
         row.classList.add("r_"+ element["id"]);
         let cell = row.insertCell();
-        cell.classList.add("radio-btn");
+        cell.classList.add("radio-btn"+element["id"]);
         checkButton(cell);
       for (let key in element) {
         if(key!="id"){
