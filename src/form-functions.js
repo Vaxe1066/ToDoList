@@ -15,9 +15,10 @@ function removeAllChildNodes(parent) {
     }
   }
 
-let maxId=5;
+
 
 const submitEvent = (Obj, mountains, myForm) => {
+    let maxId=mountains.length;
     const submitBtn = document.querySelector(".js-submit-btn");
     submitBtn.addEventListener("click", ()=>{
         let title = document.querySelector(".js-title-form").value;
@@ -30,7 +31,7 @@ const submitEvent = (Obj, mountains, myForm) => {
         removeAllChildNodes(containerRem);
 
         let table = document.querySelector("table");
-        let data = Object.keys(mountains[0]);
+        //let data = Object.keys(mountains[0]);
         generateTable(table, mountains);
         formReset(myForm);
         console.log(mountains);
@@ -42,4 +43,4 @@ const submitEvent = (Obj, mountains, myForm) => {
 
 
 
-export {submitEvent, formReset}
+export {submitEvent, formReset, removeAllChildNodes}
