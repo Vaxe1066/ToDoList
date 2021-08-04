@@ -1,15 +1,16 @@
 import loadPage from './load-page.js';
 import contentLoad from './contents-load.js';
-import {generateTableHead, generateTable} from './generate-table.js';
-import {submitEvent, formReset} from './form-functions.js';
-import {checkTask,execEditTask, closeForm} from './table-btns-functions.js';
-import removeContents from './removeContents.js';
+import {generateTable} from './generate-table.js';
+//import {closeForm, formReset, removeAllChildNodes, replaceTaskObject,checkCondition, editListner } from './helper-functions.js';
+
 import './style.css';
 
 
 
 
+  
 loadPage();
+
 
 
 const bar = document.querySelector(".dropdown-container");
@@ -63,22 +64,223 @@ addItmEl.addEventListener("click", () =>{
   
 })
 
-closeForm();
+/* close function*/
+function closeForm(type) {
+  const formEl = document.querySelector(`.js-my-form${type}`);
 
-submitEvent(Task, mountains, formEl);
+  const closeBtn = document.querySelector(`.close${type}`);
+
+  closeBtn.addEventListener("click", () =>{
+      formEl.style.display = "none";
+      let res = document.querySelector(`.js-the-form${type}`).reset();
+  })  
+}
+/* reset and close form after display function */
+function formReset(type){
+  const formEl = document.querySelector(`.js-my-form${type}`);
+  let res = document.querySelector(`.js-the-form${type}`).reset();
+  formEl.style.display = "none";
+}
+
+/* remove all child nodes for table body - fresh for display */
+function removeAllChildNodes(parent) {
+  if(parent.firstChild){
+    while (parent.firstChild) {
+      parent.removeChild(parent.firstChild);
+   }
+  }
+}
+
+/* create submit button */
+let maxId=mountains.length;
+const submitBtn = document.querySelector(".js-submit-btn");
+submitBtn.addEventListener("click", ()=>{
+    let title = document.querySelector(".js-title-form").value;
+    let details = document.querySelector(".details").value;
+    let duedate = document.querySelector(".js-due-date").value;
+    let item = new Task(maxId+1, title, details, duedate);
+    mountains.push(item);
+    console.log(mountains);
+    const containerRem = document.querySelector('.tableMain');
+    removeAllChildNodes(containerRem);
+
+    let table = document.querySelector("table");
+    //let data = Object.keys(mountains[0]);
+    maxId++;
+    generateTable(table, mountains);
+    formReset("");
+    closeForm("");
+    //checkTask();
+    const checkEl = document.querySelectorAll("input[type=checkbox]");
+    checkEl.forEach(box =>{
+      checkCondition(box);
+
+    });
+    editListner();
+    execDeleteTask(mountains);
+    
+
+})
+
+/*check button strike through*/
+function checkCondition(box){
+  box.addEventListener('change', function(e){
+    if(box.checked){
+      let radioParent = box.parentElement;
+      let rowParent = radioParent.parentElement;
+      rowParent.style.textDecoration = "line-through";
+      rowParent.style.textDecorationColor = "red";
+      //console.log(neighbour.textContent);
+    }
+    else if(!box.checked){
+      let radioParent = box.parentElement;
+      let rowParent = radioParent.parentElement;
+      rowParent.style.textDecoration = "none";
+
+    }
+  })
+}
+
+const checkEl = document.querySelectorAll("input[type=checkbox]");
+checkEl.forEach(box =>{
+  checkCondition(box);
+
+})
 
 
-checkTask();
-execEditTask(mountains);
+/*helper */
+function getClassIDOParent(element){
+  let editParent = element.parentElement;
+  let idx = Number(editParent.className.replace(/\D+/g, ''));
+  console.log(idx);
+  return idx;
+}
+function findTaskObject(data, idx) {
+  let taskSelected;
+  for(let element of data){
+      for(let key in element){
+          if (key=="id" && element[key]==idx){
+              taskSelected = element;
+              break;
+          }
+      }
+  }
+  return taskSelected;
+}
+
+function populateEditForm(task){
+  let titleEl = document.querySelector(".js-title-form-edit");
+  titleEl.value = task["title"];
+
+  let detailsEl = document.querySelector(".js-details-edit");
+  detailsEl.value = task["details"];
+
+  let dateEl = document.querySelector(".js-due-date-edit");
+  dateEl.value = task["date"];
+
+
+}
+
+function replaceTaskObject(data, idx, newTitle, newDetails, newDate){
+  for(let element of data){
+    if(element["id"]==idx){
+      element["title"]=newTitle;
+      element["details"]=newDetails;
+      element["date"]=newDate;
+    }
+  }
+  console.log(data);
+}
+
+/*edit form */
+let indexSel ;
+function editListner(){
+  const editEl = document.querySelectorAll(".edit-btn");
+  editEl.forEach(editItem =>{
+    editItem.addEventListener("click", (e) =>{ 
+        let idx = getClassIDOParent(editItem);
+        const formEl = document.querySelector(".js-my-form-edit");
+        formEl.style.display="block";     
+        let taskSelected = findTaskObject(mountains, idx);
+        console.log(taskSelected);
+        populateEditForm(taskSelected);
+        closeForm("-edit");
+        indexSel=idx;
+      
+  })
+})  
+}
+
+editListner();
+
+
+
+/*do submit button on edit form */
+
+const submitBtnEdit = document.querySelector(".js-submit-btn-edit");
+submitBtnEdit.addEventListener("click", ()=>{
+  let title = document.querySelector(".js-title-form-edit").value;
+  let details = document.querySelector(".details-edit").value;
+  let duedate = document.querySelector(".js-due-date-edit").value;
+  replaceTaskObject(mountains, indexSel, title, details, duedate);
+  const containerRem = document.querySelector('.tableMain');
+  removeAllChildNodes(containerRem);
+  let table = document.querySelector("table");
+  generateTable(table, mountains);
+  const formEl = document.querySelector(".js-my-form-edit")
+  formEl.style.display = "none";
+  formReset("-edit");
+  editListner();
+  const checkEl = document.querySelectorAll("input[type=checkbox]");
+  checkEl.forEach(box =>{
+    checkCondition(box);
+  })
+})
+
+
+/* now do delete task */
 
 
 
 
+/*
+function deleteConditions(data, item){
+  item.addEventListener("click", function(e) {
+    let idx = getClassIDOParent(item);
+    data.splice(idx-1, 1);
+    console.log(data);
+    const containerRem = document.querySelector('.tableMain');
+    removeAllChildNodes(containerRem);
+    let table = document.querySelector("table");
+    //let data = Object.keys(data[0]);
+    generateTable(table, data);
+  })
+}
 
 
+const deleteEl = document.querySelectorAll(".delete-btn");
+deleteEl.forEach(deleteItem =>{
+  deleteConditions(mountains, deleteItem );
+})
 
+*/
+function execDeleteTask(data){
+  const deleteEl = document.querySelectorAll(".delete-btn");
+  deleteEl.forEach(deleteItem =>{
+    deleteItem.addEventListener("click", (e)=>{
+      let deleteParent = deleteItem.parentElement;
+      let idx = Number(deleteParent.className.replace(/\D+/g, ''));
+      console.log(idx);
+      data.splice(idx-1, 1);
+      console.log(data);
+      const containerRem = document.querySelector('.tableMain');
+      removeAllChildNodes(containerRem);
+      let table = document.querySelector("table");
+      //let data = Object.keys(data[0]);
+      generateTable(table, data);
+      execDeleteTask(data);
+    })
+  })
+}
 
-
-
-
-
+execDeleteTask(mountains);
