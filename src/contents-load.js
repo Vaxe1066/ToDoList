@@ -1,3 +1,5 @@
+import addIcon from './add.svg';
+
 const contentLoad = () => {
 
     const wrapper = document.querySelector(".content");
@@ -23,18 +25,43 @@ const contentLoad = () => {
     dropdownDiv.classList.add("dropdown-content");
     wrapper.appendChild(dropdownDiv);
 
+    const dropOptions = document.createElement("div");
+    dropOptions.classList.add("dropOptions");
+    dropdownDiv.appendChild(dropOptions);
 
     const dropdownDivEl = document.querySelector(".dropdown-content")
     
-    dropdownDivEl.appendChild(homeBtn);
-    dropdownDivEl.appendChild(todayBtn);
-    dropdownDivEl.appendChild(weekBtn);
-    dropdownDivEl.appendChild(projectsBtn);
+    dropOptions.appendChild(homeBtn);
+    dropOptions.appendChild(todayBtn);
+    dropOptions.appendChild(weekBtn);
+    dropOptions.appendChild(projectsBtn);
 
     
     const middleDiv = document.querySelector(".middle");
     middleDiv.setAttribute("style", "grid-column: 4/10");
 
+
+
+    /* sub porjects */
+    const dropdownOptionsEl = document.querySelector(".dropOptions")
+    const subProjDiv = document.createElement("div");
+    subProjDiv.classList.add("subProjects");
+    dropdownOptionsEl.appendChild(subProjDiv);
+
+    const addProj = document.createElement("div");
+    addProj.classList.add("addProjectDiv");
+    dropdownDivEl.appendChild(addProj);
+    const inputProjIcon = document.createElement("input");
+    inputProjIcon.setAttribute("type", "image");
+    inputProjIcon.src = addIcon;
+    inputProjIcon.setAttribute("width", "20px");
+    inputProjIcon.setAttribute("height", "20px");
+    inputProjIcon.classList.add("projectAdd");
+    addProj.appendChild(inputProjIcon) ;  
+
+    const addProjectText = document.createElement("p");
+    addProjectText.textContent = "New Project";    
+    addProj.appendChild(addProjectText) ;
 
 
 

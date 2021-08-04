@@ -25,8 +25,30 @@ bar.addEventListener("click", ()=>{
     else if(!contents){
         contentLoad();
     }
-    
-   
+    /*side bar event listners */
+
+    const projectAddEl = document.querySelector(".projectAdd");
+    if(projectAddEl){
+      projectAddEl.addEventListener("click", ()=>{
+        console.log("Hello");
+        const subProjDiv =document.querySelector(".subProjects");
+        const projPrompt = prompt("New Project Name");
+        if(projPrompt && subProjDiv){
+          const newProjAnchor = document.createElement("a");
+          newProjAnchor.classList.add(projPrompt);
+          newProjAnchor.textContent = projPrompt;
+          newProjAnchor.style.fontSize = "15px";
+          newProjAnchor.style.paddingLeft = "40px";
+          newProjAnchor.style.color = "rgb(47,85,151)";
+
+          subProjDiv.appendChild(newProjAnchor);
+          
+        }
+        ;
+
+      })
+    }
+ 
 })
 
 /*Create my book constructor here*/
@@ -37,6 +59,13 @@ function Task(id, title, details, date){
     this.date=date
   }
 
+let overall = [
+  {  id:1, title: "Monte Falco", details:"", date: 1658},
+  {  id:2, title: "Monte Falterona", details:"", date: 1654},
+  {  id:3, title: "Poggio Scali", details:"", date: 1520 },
+  {  id:4, title: "Pratomagno", details:"",date: 1592  },
+  {  id:5, title: "Monte Amiata", details:"",date: "2021-08-25"  }
+];
 
 let mountains = [
     {  id:1, title: "Monte Falco", details:"", date: 1658},
@@ -243,27 +272,6 @@ submitBtnEdit.addEventListener("click", ()=>{
 
 
 
-/*
-function deleteConditions(data, item){
-  item.addEventListener("click", function(e) {
-    let idx = getClassIDOParent(item);
-    data.splice(idx-1, 1);
-    console.log(data);
-    const containerRem = document.querySelector('.tableMain');
-    removeAllChildNodes(containerRem);
-    let table = document.querySelector("table");
-    //let data = Object.keys(data[0]);
-    generateTable(table, data);
-  })
-}
-
-
-const deleteEl = document.querySelectorAll(".delete-btn");
-deleteEl.forEach(deleteItem =>{
-  deleteConditions(mountains, deleteItem );
-})
-
-*/
 function execDeleteTask(data){
   const deleteEl = document.querySelectorAll(".delete-btn");
   deleteEl.forEach(deleteItem =>{
@@ -284,3 +292,5 @@ function execDeleteTask(data){
 }
 
 execDeleteTask(mountains);
+
+
