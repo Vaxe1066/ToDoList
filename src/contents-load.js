@@ -38,7 +38,7 @@ const contentLoad = () => {
 
     
     const middleDiv = document.querySelector(".middle");
-    middleDiv.setAttribute("style", "grid-column: 4/10");
+    middleDiv.setAttribute("style", "grid-column: 3/10");
 
 
 
@@ -50,7 +50,8 @@ const contentLoad = () => {
 
     const addProj = document.createElement("div");
     addProj.classList.add("addProjectDiv");
-    dropdownDivEl.appendChild(addProj);
+    //dropdownDivEl.appendChild(addProj);
+    wrapper.appendChild(addProj);
     const inputProjIcon = document.createElement("input");
     inputProjIcon.setAttribute("type", "image");
     inputProjIcon.src = addIcon;

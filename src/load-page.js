@@ -1,6 +1,7 @@
 import profileIcon from './profileImg.png';
 import addIcon from './add.svg';
 
+
 const loadPage = () => {
     console.log("hello world - again okay lies")
 
@@ -16,6 +17,8 @@ const loadPage = () => {
     addInput.src = addIcon;
     addInput.setAttribute("width", "20px");
     addInput.setAttribute("height", "20px");
+
+
 
 
 
