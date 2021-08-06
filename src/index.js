@@ -132,7 +132,7 @@ function execTableAllButtons(data, type){
 
     });
     editListner();
-    //openPopUpBox(data);
+    openPopUpBox(data);
     execDeleteTask(data);
 }
 
@@ -620,7 +620,7 @@ function openPopUpBox(data){
   
 
 
-//openPopUpBox(mountains);
+openPopUpBox(mountains);
 
 function clearDropDown(){
   const selectEl=  document.querySelectorAll("select");
