@@ -1,5 +1,6 @@
 import profileIcon from './profileImg.png';
 import addIcon from './add.svg';
+import sortIcon from './sort.svg';
 
 
 const loadPage = () => {
@@ -18,7 +19,11 @@ const loadPage = () => {
     addInput.setAttribute("width", "20px");
     addInput.setAttribute("height", "20px");
 
-
+    let aSort = document.querySelector(".sort");
+    aSort.src = sortIcon;
+    aSort.setAttribute("width", "30px");
+    aSort.setAttribute("height", "30px");
+    aSort.setAttribute("title","Sort By Due Date");
 
 
 

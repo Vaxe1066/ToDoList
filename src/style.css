@@ -199,13 +199,13 @@ table th {
 
 @media screen and (max-height: 830px){
     tbody{
-        height: 500px;
+        height: 450px;
     }
 }
 
 @media screen and (min-height: 831px){
     tbody{
-        height: 700px;
+        height: 650px;
     }
 
 }

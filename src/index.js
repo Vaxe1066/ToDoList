@@ -86,13 +86,14 @@ function setToSunday( date ) {
 }
 
 let today = new Date();
+console.log(changeDateFormat(today));
 let mon = new Date();
 let sun = new Date();
 today = Date.parse(changeDateFormat(today));
 mon = Date.parse(changeDateFormat(setToMonday(mon)));
 sun = Date.parse(changeDateFormat(setToSunday(sun)));
 
-console.log({today, mon, sun})
+
 
 
 loadPage();
@@ -100,13 +101,14 @@ loadPage();
 function todayTab(todayDate){
   const todayBtn = document.querySelector(".today-btn");
   todayBtn.addEventListener("click", ()=>{
-    //console.log(todayDate);
+    console.log(changeDateFormat(new Date()));
     let dataFilter = [];
     for(let element of mountains){
-      if(element["date"]==todayDate){
+      if(strToDate(element["date"])==todayDate){
         dataFilter.push(element);
       }
     }
+    console.log(dataFilter);
     execTableAllButtons(dataFilter,"");
     subProjectTitleChange("Today");
   })
@@ -119,12 +121,10 @@ function weekTab(mondayDate, sundayDate){
     let dataFilter = [];
     for(let element of mountains){
       let elementDate = strToDate(element["date"]);
-      console.log(elementDate);
       if((elementDate>=mondayDate) && (elementDate<=sundayDate)){
         dataFilter.push(element);
       }
     }
-    console.log(dataFilter);
     execTableAllButtons(dataFilter,"");
     subProjectTitleChange("Week");
   })
@@ -136,9 +136,9 @@ function execTableAllButtons(data, type){
       removeAllChildNodes(containerRem);
     }
     let table = document.querySelector("table");
-    let dataHead = Object.keys(mountains[0]);
+    //let dataHead = Object.keys(mountains[0]);
     generateTable(table, data); // generate the table first
-    generateTableHead(table, dataHead); // then the head
+    //generateTableHead(table, dataHead); // then the head
     formReset(type);
     closeForm(type);
     const checkEl = document.querySelectorAll("input[type=checkbox]");
@@ -287,9 +287,9 @@ function Task(id, projects, title, details, date){
   
   let table = document.querySelector("table");
   if (mountains.length >0) {
-    let data = Object.keys(mountains[0]);
+    //let data = Object.keys(mountains[0]);
     generateTable(table, mountains); // generate the table first
-    generateTableHead(table, data); // then the head
+    //generateTableHead(table, data); // then the head
   }
 
 
@@ -458,6 +458,7 @@ submitBtnEdit.addEventListener("click", ()=>{
   let details = document.querySelector(".details-edit").value;
   let duedate = document.querySelector(".js-due-date-edit").value;
   replaceTaskObject(mountains, indexSel, project, title, details, duedate);
+  console.log(mountains);
   const checkSubTitle = document.querySelector("h3");
   let dataFilter = filterData(checkSubTitle);
   execTableAllButtons(dataFilter,"-edit")
@@ -494,18 +495,24 @@ execDeleteTask(mountains);
 
 let asc=1;
 const sortButton = document.querySelector(".sort");
-sortButton.addEventListener("click",()=>{
-  mountains.sort(function(a, b) {
-    if(asc==1){
-      asc==0
-      return parseFloat(strToDate(a.date)) - parseFloat(strToDate(b.date));
-    }
-    else if(asc==0){
-      asc=1;
-      return   parseFloat(strToDate(b.date)) - parseFloat(strToDate(a.date));
-    }
+  sortButton.addEventListener("click",()=>{
+    const checkSubTitle = document.querySelector("h3");
+    let  dataFilter = filterData(checkSubTitle);
+    dataFilter.sort(function(a, b) {
+      if(asc==1){
+        return parseFloat(strToDate(a.date)) - parseFloat(strToDate(b.date));
+      }
+      else if(asc==(-1)){
+        return   parseFloat(strToDate(b.date)) - parseFloat(strToDate(a.date));
+      }
 
-  });
-  execTableAllButtons(mountains,"");
 
-})
+    });
+    asc*=(-1);
+    execTableAllButtons(dataFilter,"");
+
+  })
+
+
+
+
