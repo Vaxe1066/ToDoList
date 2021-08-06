@@ -260,9 +260,14 @@ thead {
     width: 80%;
 }
 
+.details, .details-edit{
+    height: 80px;
+    width: 400px;
+}
+
 
     /* The Close Button */
-.close, .close-edit {
+.close, .close-edit, .closePop {
     color: #aaaaaa;
     float: right;
     font-size: 28px;
@@ -272,7 +277,10 @@ thead {
 .close:hover,
 .close:focus,
 .close-edit:hover,
-.close-edit:focus   
+.close-edit:focus,
+.closePop:hover,
+.closePop:focus
+
     {
     color: #000;
     text-decoration: none;
@@ -282,3 +290,60 @@ thead {
 
 
 
+/* pop up box*/
+
+.overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    /*transition: opacity 500ms;*/
+    display: none;
+    /*opacity: 0;*/
+  }
+
+  
+  .popup {
+    margin: 70px auto;
+    /*padding: 20px;*/
+    background: #fff;
+    border-radius: 5px;
+    width: 60%;
+    height: 50%;
+    position: relative;
+    transition: all 5s ease-in-out;
+    overflow: auto;
+  }
+
+  
+  h4, .divH4{
+    margin-top: 0;
+    color: #333;
+  }
+  .popup .closePop {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    transition: all 200ms;
+    font-size: 30px;
+    /*font-weight: bold;*/
+    text-decoration: none;
+    /*color: #333;*/
+  }
+  /*.popup .closePop:hover {
+    color: #06D85F;
+  }*/
+
+
+
+
+  .divH4, h4{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 10px;
+      padding-top: 10px;
+      padding-left: 10px;
+  }

@@ -29,7 +29,7 @@ import './style.css';
   {  id:19, projects:"Test", title: "Monte Amiata", details:"",date: "2021-08-05"  }
 ];*/
 
-
+//let mountains=[];
 //localStorage.setItem("alltasks", JSON.stringify(mountains));
 
 let mountains  = JSON.parse(localStorage.getItem("alltasks"));
@@ -92,6 +92,7 @@ function todayTab(todayDate){
     }
     console.log(dataFilter);
     execTableAllButtons(dataFilter,"");
+    //openPopUpBox(dataFilter);
     subProjectTitleChange("Today");
   })
 }
@@ -108,7 +109,9 @@ function weekTab(mondayDate, sundayDate){
       }
     }
     execTableAllButtons(dataFilter,"");
+    //openPopUpBox(dataFilter);
     subProjectTitleChange("Week");
+
   })
 }
 
@@ -129,7 +132,8 @@ function execTableAllButtons(data, type){
 
     });
     editListner();
-    execDeleteTask(data)
+    //openPopUpBox(data);
+    execDeleteTask(data);
 }
 
 function subProjectTitleChange(text){
@@ -166,7 +170,16 @@ function filterData(title){
 }
 
 
-let projectLst=[]
+
+let projectLst=["ToDoList"]
+if(mountains.length>0){
+  for(let element of mountains){
+    if(!projectLst.includes(element["projects"])){
+      projectLst.push(element["projects"]);
+    }
+
+    }
+  }
 
 const bar = document.querySelector(".dropdown-container");
 bar.addEventListener("click", ()=>{
@@ -181,14 +194,14 @@ bar.addEventListener("click", ()=>{
     }
     else if(!contents){
         contentLoad();
-        if(mountains.length>0){
+        /*if(mountains.length>0){
           for(let element of mountains){
             if(!projectLst.includes(element["projects"])){
               projectLst.push(element["projects"]);
             }
 
             }
-          }
+          }*/
         if(projectLst.length>0){
           for(let item of projectLst){
             const subProjDiv =document.querySelector(".subProjects");
@@ -211,6 +224,7 @@ bar.addEventListener("click", ()=>{
         const homeButton=document.querySelector(".home-btn");
         homeButton.addEventListener("click", ()=>{
           execTableAllButtons(mountains,"");
+          //openPopUpBox(mountains);
           subProjectTitleChange("Home");
         })
   
@@ -225,6 +239,7 @@ bar.addEventListener("click", ()=>{
         const projPrompt = prompt("New Project Name");
         if(projPrompt && subProjDiv){
           createProjectAnchor(subProjDiv, projPrompt);
+          projectLst.push(projPrompt);
           
         };
         const subPrjocEl = document.querySelector(".subProjects");
@@ -278,6 +293,7 @@ function Task(id, projects, title, details, date){
 const addItmEl = document.querySelector(".js-add-task");
 const formEl = document.querySelector(".js-my-form");
 addItmEl.addEventListener("click", () =>{
+  createDropDownList(".projects");
   formEl.style.display="block";
   
 })
@@ -437,6 +453,7 @@ function editListner(){
   editEl.forEach(editItem =>{
     editItem.addEventListener("click", (e) =>{ 
         let idx = getClassIDOParent(editItem);
+        createDropDownList(".projects-edit");
         const formEl = document.querySelector(".js-my-form-edit");
         formEl.style.display="block";     
         let taskSelected = findTaskObject(mountains, idx);
@@ -476,27 +493,40 @@ submitBtnEdit.addEventListener("click", ()=>{
 
 
 
-function execDeleteTask(data){
+function execDeleteTask(){
   const deleteEl = document.querySelectorAll(".delete-btn");
   deleteEl.forEach(deleteItem =>{
     deleteItem.addEventListener("click", (e)=>{
       let deleteParent = deleteItem.parentElement;
       let idx = Number(deleteParent.className.replace(/\D+/g, ''));
       console.log(idx);
-      data.splice(idx-1, 1);
-      console.log(data);
+      let iKeep;
+      for(let element of mountains){;
+        if(element["id"]==idx){
+          iKeep=mountains.indexOf(element);
+        }
+      }
+      mountains.splice(iKeep, 1);
+      console.log(mountains);
       const containerRem = document.querySelector('.tableMain');
       removeAllChildNodes(containerRem);
       let table = document.querySelector("table");
+      const checkSubTitle = document.querySelector("h3");
+      let  dataFilter = filterData(checkSubTitle);
       //let data = Object.keys(data[0]);
-      generateTable(table, data);
+      generateTable(table, dataFilter);
       localStorage.setItem("alltasks", JSON.stringify(mountains));
-      execDeleteTask(data);
+      //openPopUpBox(data);
+      execDeleteTask();
     })
   })
 }
 
-execDeleteTask(mountains);
+execDeleteTask();
+
+
+
+
 
 /* sort button */
 
@@ -521,5 +551,104 @@ const sortButton = document.querySelector(".sort");
   })
 
 
+  /*get details by click function*/
+  function closeBox(data) {
+    const formEl = document.querySelector(".overlay");
+  
+    const closeBtn = document.querySelector(".closePop");
+    if(closeBtn){
+      closeBtn.addEventListener("click", () =>{
+        formEl.style.display = "none";
+    })  
+    }
+  }
+
+function openPopUpBox(data){
+  const cellEl = document.querySelectorAll(".titleCell");
+  cellEl.forEach(cell =>{
+    cell.addEventListener("click", ()=>{
+      
+      let idx=getClassIDOParent(cell);
+      const popupEl = document.querySelector(".overlay");
+      popupEl.style.display="block";
+      const allH4 = document.querySelectorAll(".divH4")
+      allH4.forEach(item=>{
+        if(item.firstElementChild.className=="taskH4"){
+          let pChild = item.lastElementChild;
+          pChild.textContent = cell.textContent;
+        }
+        else if(item.firstElementChild.className=="projectH4"){
+          let text;
+          for(let element of data){
+            if(element["id"]==idx){
+              text=element["projects"]
+            }
+          }
+          let pChild = item.lastElementChild;
+          pChild.textContent = text;
+        }
+        else if(item.firstElementChild.className=="detailsH4"){
+          let text;
+          for(let element of data){
+            if(element["id"]==idx){
+              text=element["details"]
+            }
+          }
+          let pChild = item.lastElementChild;
+          pChild.textContent = text;
+        }
+        else if(item.firstElementChild.className=="dateH4"){
+          let text;
+          for(let element of data){
+            if(element["id"]==idx){
+              text=element["date"]
+            }
+          }
+          let pChild = item.lastElementChild;
+          pChild.textContent = text;
+        }
+
+      })
+
+      closeBox(data);
+    })
+
+  })
+  
+}
+
+  
 
 
+//openPopUpBox(mountains);
+
+function clearDropDown(){
+  const selectEl=  document.querySelectorAll("select");
+  selectEl.forEach(selectItem =>{
+    while (selectItem.firstChild) {
+      selectItem.removeChild(selectItem.lastChild);
+    }
+  })
+
+}
+  function createDropDownList(classname){
+    //let DropDownProjectLst=[]
+    let DropDownProjectLst=projectLst;
+    /*if(mountains.length>0){
+      for(let element of mountains){
+        if(!DropDownProjectLst.includes(element["projects"])){
+          DropDownProjectLst.push(element["projects"]);
+        }
+  
+        }
+      }*/
+    clearDropDown();
+    for(let item of DropDownProjectLst){
+      console.log(item);
+      const selectEl = document.querySelector(classname)
+      const optionEl = document.createElement("option");
+      optionEl.setAttribute("value",item);
+      optionEl.textContent = item;
+      selectEl.appendChild(optionEl);
+    }
+  }

@@ -51,9 +51,17 @@ function generateTable(table, data) {
       checkButton(cell);
     for (let key in element) {
       if(!missKeys.includes(key)){
+        if(key=="title"){
+          let cell = row.insertCell();
+          let text = document.createTextNode(element[key]);
+          cell.classList.add("titleCell");
+          cell.appendChild(text);
+        }
+        else{
           let cell = row.insertCell();
           let text = document.createTextNode(element[key]);
           cell.appendChild(text);
+        }
       }
     }
       let cellEdit = row.insertCell();
