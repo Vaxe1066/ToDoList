@@ -27,10 +27,22 @@ function generateTableHead(table, data) {
     //console.log(key);
   }
 
-  
+function getCheckFlag(data){
+  for(let element of data ){
+    if(element["check"]==1){
+      const rowParent = document.querySelector(".r_"+element["id"]);
+      rowParent.style.textDecoration = "line-through";
+      rowParent.style.textDecorationColor = "red";
+      let inputChild = rowParent.firstElementChild;
+      let checkboxChild = inputChild.firstElementChild;
+      checkboxChild.setAttribute("checked", "true");
+    }
+  }
+
+}
 
 function generateTable(table, data) {
-  let missKeys = ["id", "projects", "details"]
+  let missKeys = ["id", "projects", "details", "check"]
   for (let element of data) {
       let row = table.insertRow();
       row.classList.add("r_"+ element["id"]);
@@ -51,6 +63,9 @@ function generateTable(table, data) {
       cellDelete.classList.add("delete-btn");
       deleteButton(cellDelete, deleteIcon);
   }
+  getCheckFlag(data);
+
+
   //tbodyHeight();
 }
 

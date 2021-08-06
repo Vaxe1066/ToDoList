@@ -7,13 +7,13 @@ import './style.css';
 
 
 
-let mountains = [
-  {  id:1, projects:"Chores", title: "Monte Falco", details:"", date: "2021-08-01"},
-  {  id:2, projects:"Chores", title: "Monte Falterona", details:"", date: "2021-07-25"},
-  {  id:3, projects:"Test",title: "Poggio Scali", details:"", date: "2010-08-25" },
-  {  id:4, projects:"Test",title: "Pratomagno", details:"", date: "2021-08-25"  },
-  {  id:5, projects:"Chores", title: "Monte Falterona", details:"", date: "2021-08-25"},
-  {  id:6, projects:"Test",title: "Poggio Scali", details:"", date: "2021-08-25" },
+/*let mountains = [
+  {  id:1, projects:"Chores", title: "Monte Falco", details:"", date: "2021-08-01", check:0},
+  {  id:2, projects:"Chores", title: "Monte Falterona", details:"", date: "2021-07-25", check:0},
+  {  id:3, projects:"Test",title: "Poggio Scali", details:"", date: "2010-08-25",check:0 },
+  {  id:4, projects:"Test",title: "Pratomagno", details:"", date: "2021-08-25", check:0  },
+  {  id:5, projects:"Chores", title: "Monte Falterona", details:"", date: "2021-08-25", check:0},
+  {  id:6, projects:"Test",title: "Poggio Scali", details:"", date: "2021-08-25", check:0 },
   {  id:7, projects:"Test",title: "Pratomagno", details:"", date: "2021-08-25"  },
   {  id:8, projects:"Chores", title: "Monte Falco", details:"", date: "2021-08-25"},
   {  id:9, projects:"Chores", title: "Monte Falterona", details:"", date: "2021-08-25"},
@@ -27,30 +27,12 @@ let mountains = [
   {  id:17, projects:"Test",title: "Poggio Scali", details:"", date: "2009-08-16" },
   {  id:18, projects:"Test",title: "Pratomagno", details:"", date: "2021-08-25"  },
   {  id:19, projects:"Test", title: "Monte Amiata", details:"",date: "2021-08-05"  }
-];
-
-let currentFilter;
-/*let mountains = [
-    {  id:1, title: "Monte Falco", details:"", date: 1658},
-    {  id:2, title: "Monte Falterona", details:"", date: 1654},
-    {  id:3, title: "Poggio Scali", details:"", date: 1520 },
-    {  id:4, title: "Pratomagno", details:"",date: 1592  },
-    {  id:5, title: "Monte Amiata", details:"",date: "2021-08-25"  }
-  ];*/
+];*/
 
 
-  let test = [
-    {  id:1, projects:"Chores", title: "Monte Falco", details:"", date: "2021-08-25"},
-    {  id:2, projects:"Chores", title: "Monte Falterona", details:"", date: "2021-08-14"},
-    {  id:3, projects:"Chores", title: "Monte Falterona", details:"", date: "2021-08-20"}
-  ];
-  
+//localStorage.setItem("alltasks", JSON.stringify(mountains));
 
-
-
-
-
-
+let mountains  = JSON.parse(localStorage.getItem("alltasks"));
 
 
 
@@ -347,10 +329,27 @@ submitBtn.addEventListener("click", ()=>{
     maxId++;
     const checkSubTitle = document.querySelector("h3");
     let dataFilter =  filterData(checkSubTitle);
-    execTableAllButtons(dataFilter,"")
+    execTableAllButtons(dataFilter,"");
+    localStorage.setItem("alltasks", JSON.stringify(mountains));
     
 
 })
+
+function changeCheckFlag(flag, idx){
+
+  for(let element of mountains){
+    if(element["id"]==idx){
+      if(flag==1){
+        element["check"] = 1;
+      }
+      else if(flag==flag){
+        element["check"] = 0;
+      }
+    }
+  }
+  
+
+}
 
 /*check button strike through*/
 function checkCondition(box){
@@ -360,12 +359,17 @@ function checkCondition(box){
       let rowParent = radioParent.parentElement;
       rowParent.style.textDecoration = "line-through";
       rowParent.style.textDecorationColor = "red";
-      //console.log(neighbour.textContent);
+      let idx = getClassIDOParent(radioParent);
+      changeCheckFlag(1, idx);
+      localStorage.setItem("alltasks", JSON.stringify(mountains));
     }
     else if(!box.checked){
       let radioParent = box.parentElement;
       let rowParent = radioParent.parentElement;
       rowParent.style.textDecoration = "none";
+      let idx = getClassIDOParent(radioParent);
+      changeCheckFlag(0, idx);
+      localStorage.setItem("alltasks", JSON.stringify(mountains));
 
     }
   })
@@ -461,7 +465,9 @@ submitBtnEdit.addEventListener("click", ()=>{
   console.log(mountains);
   const checkSubTitle = document.querySelector("h3");
   let dataFilter = filterData(checkSubTitle);
-  execTableAllButtons(dataFilter,"-edit")
+  execTableAllButtons(dataFilter,"-edit");
+  localStorage.setItem("alltasks", JSON.stringify(mountains));
+
 })
 
 
@@ -484,6 +490,7 @@ function execDeleteTask(data){
       let table = document.querySelector("table");
       //let data = Object.keys(data[0]);
       generateTable(table, data);
+      localStorage.setItem("alltasks", JSON.stringify(mountains));
       execDeleteTask(data);
     })
   })
