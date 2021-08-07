@@ -31,7 +31,7 @@ import './style.css';
 
 //let mountains=[];
 //localStorage.setItem("alltasks", JSON.stringify(mountains));
-let mountains =[];
+let mountains = [];
 mountains  = JSON.parse(localStorage.getItem("alltasks"));
 
 
@@ -176,7 +176,7 @@ function filterData(title){
 
 //let projectLst=["ToDoList"]
 let projectLst=[];
-if(mountains.length>0){
+if((mountains) && (mountains.length>0)){
   for(let element of mountains){
     if(!projectLst.includes(element["projects"])){
       projectLst.push(element["projects"]);
