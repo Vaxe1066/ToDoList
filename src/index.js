@@ -31,8 +31,8 @@ import './style.css';
 
 //let mountains=[];
 //localStorage.setItem("alltasks", JSON.stringify(mountains));
-
-let mountains  = JSON.parse(localStorage.getItem("alltasks"));
+let mountains =[];
+mountains  = JSON.parse(localStorage.getItem("alltasks"));
 
 
 
