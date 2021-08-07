@@ -141,9 +141,12 @@ function subProjectTitleChange(text){
   subTitle.textContent=text;
 }
 
+
 function createProjectAnchor(subProjectElement, text){
   const newProjAnchor = document.createElement("a");
-  newProjAnchor.classList.add(text);
+  let arrText = text.split(" ");
+  let newText = arrText.join("-");
+  newProjAnchor.classList.add(newText);
   newProjAnchor.textContent = text;
   newProjAnchor.style.fontSize = "20px";
   newProjAnchor.style.paddingLeft = "40px";
@@ -171,7 +174,8 @@ function filterData(title){
 
 
 
-let projectLst=["ToDoList"]
+//let projectLst=["ToDoList"]
+let projectLst=[];
 if(mountains.length>0){
   for(let element of mountains){
     if(!projectLst.includes(element["projects"])){
